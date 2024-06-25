@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Facebook - Find Your Account</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    
 </head>
 <body>
 
@@ -19,12 +19,19 @@
                
                 <form>
                     <h5 class="card-title text-center " style=" color:red; font-weight: bold;">Find Your Account</h5>
-                    <div class="form-group">
-                        <label for="emailOrPhone">Please enter your email address or mobile number to search for your account.</label>
-                        <input type="text" class="form-control" id="emailOrPhone" placeholder="Email address or mobile number">
+                    <div class="container">
+                        <h2>OTP Verification</h2>
+                        <div id="email-form">
+                            <input type="email" id="email" placeholder="Enter your email">
+                            <button onclick="sendOtp(event)">Send OTP</button>
+                        </div>
+                        <div id="otp-form" style="display: none;">
+                            <input type="text" id="otp" placeholder="Enter OTP">
+                            <button onclick="verifyOtp(event)">Verify OTP</button>
+                        </div>
+                        <p id="message"></p>
                     </div>
-                    <button type="button" class="btn btn-secondary">Cancel</button>
-                    <button type="submit" class="btn btn-primary float-right">Search</button>
+                    
                     <div>
                         <button type="submit" class="btn text-white  btn-primary  w-100 mt-4 " style=" border-radius: 5px;"><a href="Login.html" style="text-decoration: none; font-family:  sans-serif;color: aliceblue;">Login</a></button>
                         <p class="text-center mt-2" style="font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;font-size: large;">or</p>
@@ -34,11 +41,42 @@
             </div>
         </div>
     </div>
+    
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
+<script>
+    let generatedOtp;
+
+function sendOtp(event) {
+    event.preventDefault()
+    
+    const email = document.getElementById('email').value;
+    if (email) {
+        generatedOtp = Math.floor(100000 + Math.random() * 900000); // Generate a 6-digit OTP
+        console.log('Generated OTP:', generatedOtp); // For testing purposes, log the OTP
+        document.getElementById('email-form').style.display = 'none';
+        document.getElementById('otp-form').style.display = 'block';
+        document.getElementById('message').innerText = 'OTP has been sent to your email.';
+    } else {
+        document.getElementById('message').innerText = 'Please enter a valid email.';
+    }
+}
+
+function verifyOtp(event) {
+    event.preventDefault()
+    const enteredOtp = document.getElementById('otp').value;
+    if (enteredOtp == generatedOtp) {
+        document.getElementById('message').innerText = 'OTP verified successfully!';
+        document.getElementById('message').style.color = 'green';
+    } else {
+        document.getElementById('message').innerText = 'Invalid OTP. Please try again.';
+    }
+}
+
+</script>
 </html>
 
 
